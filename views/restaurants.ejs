@@ -1,0 +1,8 @@
+<h1>This is the restaurants page!</h1>
+
+<% restaurants.forEach(function(restaurant) { %>
+	<div>
+		<h4><%= restaurant.name %></h4>
+		<img src="<%= restaurant.image %>">
+	</div>
+<% }); %>
