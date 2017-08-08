@@ -19,20 +19,20 @@ var restaurantSchema = new mongoose.Schema({
 // Compile restaurant into a model
 var Restaurant = mongoose.model("Restaurant", restaurantSchema);
 
-Restaurant.create(
-	{
-		name: "Five Star Restaurant",
-		image: "https://farm6.staticflickr.com/5495/12175878403_bb34ee63d3.jpg",
-		description: "This is a huge restaurant that serves quality food."
-	},
-	function(err, restaurant) {
-		if(err) {
-			console.log(err);
-		} else {
-			console.log("NEWLY CREATED RESTAURANT: ");
-			console.log(restaurant);
-		}
-	});
+// Restaurant.create(
+// 	{
+// 		name: "Five Star Restaurant",
+// 		image: "https://farm6.staticflickr.com/5495/12175878403_bb34ee63d3.jpg",
+// 		description: "This is a huge restaurant that serves quality food."
+// 	},
+// 	function(err, restaurant) {
+// 		if(err) {
+// 			console.log(err);
+// 		} else {
+// 			console.log("NEWLY CREATED RESTAURANT: ");
+// 			console.log(restaurant);
+// 		}
+// 	});
 
 app.get("/", function(req, res) {
 	res.render("landing");
@@ -45,7 +45,7 @@ app.get("/restaurants", function(req, res) {
 		if(err) {
 			console.log(err);
 		} else {
-			res.render("restaurants", {restaurants:allRestaurants})
+			res.render("index", {restaurants:allRestaurants})
 		}
 	});
 });
@@ -55,7 +55,8 @@ app.post("/restaurants", function(req, res) {
 	// Get data from form and add to restaurants array
 	var name = req.body.name;
 	var image = req.body.image;
-	var newRestaurant = {name: name, image: image}
+	var desc = req.body.description;
+	var newRestaurant = {name: name, image: image, description: desc}
 	// Create a new restaurant and save to database
 	Restaurant.create(newRestaurant, function(err, newlyCreated) {
 		if(err) {
@@ -74,8 +75,14 @@ app.get("/restaurants/new", function(req, res) {
 
 app.get("/restaurants/:id", function(req, res) {
 	// Find the restaurant with provided ID
-	// Render show template with that restaurant
-	res.send("test");
+	Restaurant.findById(req.params.id, function(err, foundRestaurant) {
+		if(err) {
+			console.log(err);
+		} else {
+			// Render show template with that restaurant
+			res.render("show", {restaurant: foundRestaurant});
+		}
+	});
 });
 
 app.listen(3000, function() {
