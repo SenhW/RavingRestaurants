@@ -1,17 +1,22 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
+var express     = require("express");
+	app         = express();
+	bodyParser  = require("body-parser");
+	mongoose    = require("mongoose");
 
+mongoose.connect("mongodb://localhost/raving_restaurants");
 // Parses request bodies
 app.use(bodyParser.urlencoded({extended: true}));
 // Allows pages to render without having to specify ejs extension
 app.set("view engine", "ejs");
 
-var restaurants = [
-	{name: "Five Star Restaurant", image: "https://farm6.staticflickr.com/5495/12175878403_bb34ee63d3.jpg"},
-	{name: "Kyu Japanese Restaurant", image: "https://farm4.staticflickr.com/3218/3031753372_227c77327b.jpg"},
-	{name: "Dense Tavern", image: "https://farm3.staticflickr.com/2372/2538659579_e60bf044e6.jpg"}
-];
+// SCHEMA SETUP
+var restaurantSchema = new mongoose.Schema({
+	name: String,
+	image: String
+});
+
+// Compile restaurant into a model
+var Restaurant = mongoose.model("Restaurant", restaurantSchema);
 
 app.get("/", function(req, res) {
 	res.render("landing");
@@ -19,7 +24,14 @@ app.get("/", function(req, res) {
 
 // Lists all restaurants
 app.get("/restaurants", function(req, res) {
-	res.render("restaurants", {restaurants:restaurants});
+	// Get all restaurants from database
+	Restaurant.find({}, function(err, allRestaurants) {
+		if(err) {
+			console.log(err);
+		} else {
+			res.render("restaurants", {restaurants:allRestaurants})
+		}
+	});
 });
 
 app.post("/restaurants", function(req, res) {
@@ -27,9 +39,15 @@ app.post("/restaurants", function(req, res) {
 	var name = req.body.name;
 	var image = req.body.image;
 	var newRestaurant = {name: name, image: image}
-	restaurants.push(newRestaurant);
-	// Redirect back to restaurants page
-	res.redirect("/restaurants");
+	// Create a new restaurant and save to database
+	Restaurant.create(newRestaurant, function(err, newlyCreated) {
+		if(err) {
+			console.log(err);
+		} else {
+			// Redirect back to restaurants page
+			res.redirect("/restaurants");
+		}
+	});
 });
 
 // Shows the form to submit new restaurant
