@@ -12,17 +12,33 @@ app.set("view engine", "ejs");
 // SCHEMA SETUP
 var restaurantSchema = new mongoose.Schema({
 	name: String,
-	image: String
+	image: String,
+	description: String
 });
 
 // Compile restaurant into a model
 var Restaurant = mongoose.model("Restaurant", restaurantSchema);
 
+Restaurant.create(
+	{
+		name: "Five Star Restaurant",
+		image: "https://farm6.staticflickr.com/5495/12175878403_bb34ee63d3.jpg",
+		description: "This is a huge restaurant that serves quality food."
+	},
+	function(err, restaurant) {
+		if(err) {
+			console.log(err);
+		} else {
+			console.log("NEWLY CREATED RESTAURANT: ");
+			console.log(restaurant);
+		}
+	});
+
 app.get("/", function(req, res) {
 	res.render("landing");
 });
 
-// Lists all restaurants
+// INDEX - show all restaurants
 app.get("/restaurants", function(req, res) {
 	// Get all restaurants from database
 	Restaurant.find({}, function(err, allRestaurants) {
@@ -34,6 +50,7 @@ app.get("/restaurants", function(req, res) {
 	});
 });
 
+// CREATE - add new restaurant to database
 app.post("/restaurants", function(req, res) {
 	// Get data from form and add to restaurants array
 	var name = req.body.name;
@@ -50,9 +67,15 @@ app.post("/restaurants", function(req, res) {
 	});
 });
 
-// Shows the form to submit new restaurant
+// NEW - show from to create new restaurant
 app.get("/restaurants/new", function(req, res) {
 	res.render("new");
+});
+
+app.get("/restaurants/:id", function(req, res) {
+	// Find the restaurant with provided ID
+	// Render show template with that restaurant
+	res.send("test");
 });
 
 app.listen(3000, function() {
