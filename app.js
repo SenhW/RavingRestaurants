@@ -1,9 +1,12 @@
-var express     = require("express");
-	app         = express();
-	bodyParser  = require("body-parser");
-	mongoose    = require("mongoose");
-	Restaurant  = require("./models/restaurant");
-	Comment     = require("./models/comment");
+var express     = require("express"),
+	app         = express(),
+	bodyParser  = require("body-parser"),
+	mongoose    = require("mongoose"),
+	passport    = require("passport"),
+	LocalStrategy = require("passport-local"),
+	Restaurant  = require("./models/restaurant"),
+	Comment     = require("./models/comment"),
+	User        = require("./models/user"),
 	seedDB      = require("./seeds")
 
 // CONFIGURATION
