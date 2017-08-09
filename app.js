@@ -3,6 +3,7 @@ var express     = require("express");
 	bodyParser  = require("body-parser");
 	mongoose    = require("mongoose");
 	Restaurant  = require("./models/restaurant");
+	Comment     = require("./models/comment");
 	seedDB      = require("./seeds")
 
 // CONFIGURATION
@@ -79,6 +80,30 @@ app.get("/restaurants/:id/comments/new", function(req, res) {
 			res.render("comments/new", {restaurant: restaurant});
 		}
 	});
+});
+
+// CREATE - Add new comment to database
+app.post("/restaurants/:id/comments", function(req, res) {
+	// Lookup restaurant using ID
+	Restaurant.findById(req.params.id, function(err, restaurant) {
+		if(err) {
+			console.log(err);
+			res.redirect("/restaurants");
+		} else {
+			Comment.create(req.body.comment, function(err, comment) {
+				if(err) {
+					console.log(err);
+				} else {
+					restaurant.comments.push(comment);
+					restaurant.save();
+					res.redirect("/restaurants/" + restaurant._id);
+				}
+			});
+		}
+	});
+	// Create new comment
+	// Connect new comment to restaurant
+	// Redirect restaurant show page
 });
 
 app.listen(3000, function() {
