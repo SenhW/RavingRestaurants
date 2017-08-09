@@ -90,20 +90,20 @@ app.post("/restaurants/:id/comments", function(req, res) {
 			console.log(err);
 			res.redirect("/restaurants");
 		} else {
+			// Create new comment
 			Comment.create(req.body.comment, function(err, comment) {
 				if(err) {
 					console.log(err);
 				} else {
+					// Connect new comment to restaurant
 					restaurant.comments.push(comment);
 					restaurant.save();
+					// Redirect restaurant show page
 					res.redirect("/restaurants/" + restaurant._id);
 				}
 			});
 		}
 	});
-	// Create new comment
-	// Connect new comment to restaurant
-	// Redirect restaurant show page
 });
 
 app.listen(3000, function() {
