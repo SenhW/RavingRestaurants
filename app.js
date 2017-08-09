@@ -3,27 +3,14 @@ var express     = require("express");
 	bodyParser  = require("body-parser");
 	mongoose    = require("mongoose");
 	Restaurant  = require("./models/restaurant");
+	seedDB      = require("./seeds")
 
+seedDB();
 mongoose.connect("mongodb://localhost/raving_restaurants");
 // Parses request bodies
 app.use(bodyParser.urlencoded({extended: true}));
 // Allows pages to render without having to specify ejs extension
 app.set("view engine", "ejs");
-
-// Restaurant.create(
-// 	{
-// 		name: "Five Star Restaurant",
-// 		image: "https://farm6.staticflickr.com/5495/12175878403_bb34ee63d3.jpg",
-// 		description: "This is a huge restaurant that serves quality food."
-// 	},
-// 	function(err, restaurant) {
-// 		if(err) {
-// 			console.log(err);
-// 		} else {
-// 			console.log("NEWLY CREATED RESTAURANT: ");
-// 			console.log(restaurant);
-// 		}
-// 	});
 
 app.get("/", function(req, res) {
 	res.render("landing");
