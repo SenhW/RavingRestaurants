@@ -12,6 +12,7 @@ mongoose.connect("mongodb://localhost/raving_restaurants");
 app.use(bodyParser.urlencoded({extended: true}));
 // Allows pages to render without having to specify ejs extension
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
 seedDB();
 
 app.get("/", function(req, res) {
