@@ -87,7 +87,7 @@ app.get("/restaurants/:id", function(req, res) {
 // ====================
 
 // NEW - show form to add new comment
-app.get("/restaurants/:id/comments/new", function(req, res) {
+app.get("/restaurants/:id/comments/new", isLoggedIn, function(req, res) {
 	// Find restaurant by id
 	Restaurant.findById(req.params.id, function(err, restaurant) {
 		if(err) {
@@ -99,7 +99,7 @@ app.get("/restaurants/:id/comments/new", function(req, res) {
 });
 
 // CREATE - Add new comment to database
-app.post("/restaurants/:id/comments", function(req, res) {
+app.post("/restaurants/:id/comments", isLoggedIn, function(req, res) {
 	// Lookup restaurant using ID
 	Restaurant.findById(req.params.id, function(err, restaurant) {
 		if(err) {
@@ -163,6 +163,13 @@ app.get("/logout", function(req, res) {
 	req.logout();
 	res.redirect("/restaurants");
 });
+
+function isLoggedIn(req, res, next) {
+	if(req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect("/login");
+}
 
 app.listen(3000, function() {
 	console.log("Server has started!");
