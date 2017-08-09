@@ -2,22 +2,13 @@ var express     = require("express");
 	app         = express();
 	bodyParser  = require("body-parser");
 	mongoose    = require("mongoose");
+	Restaurant  = require("./models/restaurant");
 
 mongoose.connect("mongodb://localhost/raving_restaurants");
 // Parses request bodies
 app.use(bodyParser.urlencoded({extended: true}));
 // Allows pages to render without having to specify ejs extension
 app.set("view engine", "ejs");
-
-// SCHEMA SETUP
-var restaurantSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-	description: String
-});
-
-// Compile restaurant into a model
-var Restaurant = mongoose.model("Restaurant", restaurantSchema);
 
 // Restaurant.create(
 // 	{
@@ -73,6 +64,7 @@ app.get("/restaurants/new", function(req, res) {
 	res.render("new");
 });
 
+// SHOW - shows more info about one restaurant
 app.get("/restaurants/:id", function(req, res) {
 	// Find the restaurant with provided ID
 	Restaurant.findById(req.params.id, function(err, foundRestaurant) {
