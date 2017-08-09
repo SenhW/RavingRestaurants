@@ -5,12 +5,13 @@ var express     = require("express");
 	Restaurant  = require("./models/restaurant");
 	seedDB      = require("./seeds")
 
-seedDB();
+// CONFIGURATION
 mongoose.connect("mongodb://localhost/raving_restaurants");
 // Parses request bodies
 app.use(bodyParser.urlencoded({extended: true}));
 // Allows pages to render without having to specify ejs extension
 app.set("view engine", "ejs");
+seedDB();
 
 app.get("/", function(req, res) {
 	res.render("landing");
@@ -54,7 +55,7 @@ app.get("/restaurants/new", function(req, res) {
 // SHOW - shows more info about one restaurant
 app.get("/restaurants/:id", function(req, res) {
 	// Find the restaurant with provided ID
-	Restaurant.findById(req.params.id, function(err, foundRestaurant) {
+	Restaurant.findById(req.params.id).populate("comments").exec(function(err, foundRestaurant) {
 		if(err) {
 			console.log(err);
 		} else {
