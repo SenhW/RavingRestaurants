@@ -6,17 +6,17 @@ var data = [
 	{
 		name: "Five Star Restaurant", 
 		image: "https://farm6.staticflickr.com/5495/12175878403_bb34ee63d3.jpg",
-		description: "This is a huge restaurant that serves quality food."
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum risus velit, fermentum quis metus eu, mattis viverra leo. Pellentesque vulputate scelerisque dapibus. Cras interdum, dui et cursus lacinia, tortor est dapibus nibh, non hendrerit justo tortor ut nunc. Nulla fermentum vitae nisi et fringilla. In faucibus sapien nec condimentum congue. Quisque sed justo in sapien egestas finibus eget eget dolor. Mauris sagittis justo justo, id pharetra tortor eleifend ac. Etiam vestibulum viverra dui, quis ullamcorper ipsum varius eu."
 	},
 	{
 		name: "Kyu Japanese Restaurant", 
 		image: "https://farm4.staticflickr.com/3218/3031753372_227c77327b.jpg",
-		description: "Great Japanese food!"
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum risus velit, fermentum quis metus eu, mattis viverra leo. Pellentesque vulputate scelerisque dapibus. Cras interdum, dui et cursus lacinia, tortor est dapibus nibh, non hendrerit justo tortor ut nunc. Nulla fermentum vitae nisi et fringilla. In faucibus sapien nec condimentum congue. Quisque sed justo in sapien egestas finibus eget eget dolor. Mauris sagittis justo justo, id pharetra tortor eleifend ac. Etiam vestibulum viverra dui, quis ullamcorper ipsum varius eu."
 	},
 	{
 		name: "Dense Tavern", 
 		image: "https://farm3.staticflickr.com/2372/2538659579_e60bf044e6.jpg",
-		description: "Lovely old-fashioned restaurant"
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum risus velit, fermentum quis metus eu, mattis viverra leo. Pellentesque vulputate scelerisque dapibus. Cras interdum, dui et cursus lacinia, tortor est dapibus nibh, non hendrerit justo tortor ut nunc. Nulla fermentum vitae nisi et fringilla. In faucibus sapien nec condimentum congue. Quisque sed justo in sapien egestas finibus eget eget dolor. Mauris sagittis justo justo, id pharetra tortor eleifend ac. Etiam vestibulum viverra dui, quis ullamcorper ipsum varius eu."
 	}
 ]
 function seedDB() {
