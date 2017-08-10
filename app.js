@@ -9,6 +9,7 @@ var express     = require("express"),
 	User        = require("./models/user"),
 	seedDB      = require("./seeds")
 
+// Requiring routes
 var commentRoutes    = require("./routes/comments"),
 	restaurantRoutes = require("./routes/restaurants"),
 	indexRoutes      = require("./routes/index")
@@ -41,9 +42,9 @@ app.use(function(req, res, next) {
 	next();
 });
 
-app.use(indexRoutes);
-app.use(restaurantRoutes);
-app.use(commentRoutes);
+app.use("/", indexRoutes);
+app.use("/restaurants", restaurantRoutes);
+app.use("/restaurants/:id/comments", commentRoutes);
 
 app.listen(3000, function() {
 	console.log("Server has started!");

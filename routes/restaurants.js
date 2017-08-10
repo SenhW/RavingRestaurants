@@ -3,7 +3,7 @@ var router = express.Router();
 var Restaurant = require("../models/restaurant");
 
 // INDEX - show all restaurants
-router.get("/restaurants", function(req, res) {
+router.get("/", function(req, res) {
 	// Get all restaurants from database
 	Restaurant.find({}, function(err, allRestaurants) {
 		if(err) {
@@ -15,7 +15,7 @@ router.get("/restaurants", function(req, res) {
 });
 
 // CREATE - add new restaurant to database
-router.post("/restaurants", function(req, res) {
+router.post("/", function(req, res) {
 	// Get data from form and add to restaurants array
 	var name = req.body.name;
 	var image = req.body.image;
@@ -33,12 +33,12 @@ router.post("/restaurants", function(req, res) {
 });
 
 // NEW - show form to create new restaurant
-router.get("/restaurants/new", function(req, res) {
+router.get("/new", function(req, res) {
 	res.render("restaurants/new");
 });
 
 // SHOW - shows more info about one restaurant
-router.get("/restaurants/:id", function(req, res) {
+router.get("/:id", function(req, res) {
 	// Find the restaurant with provided ID
 	Restaurant.findById(req.params.id).populate("comments").exec(function(err, foundRestaurant) {
 		if(err) {

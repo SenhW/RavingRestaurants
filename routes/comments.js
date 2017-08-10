@@ -1,10 +1,11 @@
 var express = require("express");
-var router = express.Router();
+// Set mergeParams equal to true in order to access restaurant id
+var router = express.Router({mergeParams: true});
 var Restaurant = require("../models/restaurant")
 var Comment = require("../models/comment")
 
 // NEW - show form to add new comment
-router.get("/restaurants/:id/comments/new", isLoggedIn, function(req, res) {
+router.get("/new", isLoggedIn, function(req, res) {
 	// Find restaurant by id
 	Restaurant.findById(req.params.id, function(err, restaurant) {
 		if(err) {
@@ -16,7 +17,7 @@ router.get("/restaurants/:id/comments/new", isLoggedIn, function(req, res) {
 });
 
 // CREATE - Add new comment to database
-router.post("/restaurants/:id/comments", isLoggedIn, function(req, res) {
+router.post("/", isLoggedIn, function(req, res) {
 	// Lookup restaurant using ID
 	Restaurant.findById(req.params.id, function(err, restaurant) {
 		if(err) {
@@ -39,6 +40,8 @@ router.post("/restaurants/:id/comments", isLoggedIn, function(req, res) {
 	});
 });
 
+
+// Middleware
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated()) {
 		return next();
