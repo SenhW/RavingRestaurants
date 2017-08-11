@@ -4,6 +4,7 @@ var express     = require("express"),
 	mongoose    = require("mongoose"),
 	passport    = require("passport"),
 	LocalStrategy = require("passport-local"),
+	methodOverride = require("method-override"),
 	Restaurant  = require("./models/restaurant"),
 	Comment     = require("./models/comment"),
 	User        = require("./models/user"),
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Allows pages to render without having to specify ejs extension
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 // seedDB(); // Seed the database
 
 // PASSPORT CONFIGURATION

@@ -54,6 +54,30 @@ router.get("/:id", function(req, res) {
 	});
 });
 
+// EDIT - Shows edit form
+router.get("/:id/edit", function(req, res) {
+	Restaurant.findById(req.params.id, function(err, foundRestaurant) {
+		if(err) {
+			res.redirect("/restaurants")
+		} else {
+			res.render("restaurants/edit", {restaurant: foundRestaurant});
+		}
+	});
+});
+
+// UPDATE - Edit restaurant to database
+router.put("/:id", function(req, res) {
+	// Find and update the correct restaurant
+	Restaurant.findByIdAndUpdate(req.params.id, req.body.restaurant, function(err, updatedRestaurant) {
+		if(err) {
+			res.redirect("/restaurants");
+		} else {
+			res.redirect("/restaurants/" + req.params.id);
+		}
+	});
+	// Redirect to show page
+});
+
 // Middleware
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated()) {
