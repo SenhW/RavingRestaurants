@@ -15,7 +15,7 @@ router.get("/", function(req, res) {
 });
 
 // CREATE - add new restaurant to database
-router.post("/", function(req, res) {
+router.post("/", isLoggedIn, function(req, res) {
 	// Get data from form and add to restaurants array
 	var name = req.body.name;
 	var image = req.body.image;
@@ -33,7 +33,7 @@ router.post("/", function(req, res) {
 });
 
 // NEW - show form to create new restaurant
-router.get("/new", function(req, res) {
+router.get("/new", isLoggedIn, function(req, res) {
 	res.render("restaurants/new");
 });
 
@@ -49,5 +49,13 @@ router.get("/:id", function(req, res) {
 		}
 	});
 });
+
+// Middleware
+function isLoggedIn(req, res, next) {
+	if(req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect("/login");
+}
 
 module.exports = router;
