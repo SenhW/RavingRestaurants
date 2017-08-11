@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Allows pages to render without having to specify ejs extension
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
-seedDB();
+// seedDB(); // Seed the database
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session") ({

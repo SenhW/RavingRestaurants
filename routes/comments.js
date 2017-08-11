@@ -29,6 +29,11 @@ router.post("/", isLoggedIn, function(req, res) {
 				if(err) {
 					console.log(err);
 				} else {
+					// Add username and id to comment
+					comment.author.id = req.user._id;
+					comment.author.username = req.user.username;
+					// Save comment
+					comment.save();
 					// Connect new comment to restaurant
 					restaurant.comments.push(comment);
 					restaurant.save();
