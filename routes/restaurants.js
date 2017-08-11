@@ -78,6 +78,17 @@ router.put("/:id", function(req, res) {
 	// Redirect to show page
 });
 
+// DESTROY - Delete restaurant from database
+router.delete("/:id", function(req, res) {
+	Restaurant.findByIdAndRemove(req.params.id, function(err) {
+		if(err) {
+			res.redirect("/restaurants");
+		} else {
+			res.redirect("/restaurants");
+		}
+	})
+});
+
 // Middleware
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated()) {
