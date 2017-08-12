@@ -19,10 +19,12 @@
 					<p>
 						<em>Submitted By <%= restaurant.author.username %></p></em>
 					</p>
-					<a class="btn btn-xs btn-warning" href="/restaurants/<%= restaurant._id %>/edit">Edit</a>
-					<form id="delete-form" action="/restaurants/<%= restaurant._id %>?_method=DELETE" method="POST">
-						<button class="btn btn-xs btn-danger">Delete</button>
-					</form>
+					<% if(currentUser && restaurant.author.id.equals(currentUser._id)) { %>
+						<a class="btn btn-xs btn-warning" href="/restaurants/<%= restaurant._id %>/edit">Edit</a>
+						<form id="delete-form" action="/restaurants/<%= restaurant._id %>?_method=DELETE" method="POST">
+							<button class="btn btn-xs btn-danger">Delete</button>
+						</form>
+					<% } %>
 				</div>
 			</div>
 			<div class="well">
