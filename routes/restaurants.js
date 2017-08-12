@@ -55,31 +55,27 @@ router.get("/:id", function(req, res) {
 });
 
 // EDIT - Shows edit form
-router.get("/:id/edit", function(req, res) {
+router.get("/:id/edit", checkRestaurantOwnership, function(req, res) {
 	Restaurant.findById(req.params.id, function(err, foundRestaurant) {
-		if(err) {
-			res.redirect("/restaurants")
-		} else {
-			res.render("restaurants/edit", {restaurant: foundRestaurant});
-		}
+		res.render("restaurants/edit", {restaurant: foundRestaurant});
 	});
 });
 
 // UPDATE - Edit restaurant to database
-router.put("/:id", function(req, res) {
+router.put("/:id", checkRestaurantOwnership, function(req, res) {
 	// Find and update the correct restaurant
 	Restaurant.findByIdAndUpdate(req.params.id, req.body.restaurant, function(err, updatedRestaurant) {
 		if(err) {
 			res.redirect("/restaurants");
 		} else {
+			// Redirect to show page
 			res.redirect("/restaurants/" + req.params.id);
 		}
 	});
-	// Redirect to show page
 });
 
 // DESTROY - Delete restaurant from database
-router.delete("/:id", function(req, res) {
+router.delete("/:id", checkRestaurantOwnership, function(req, res) {
 	Restaurant.findByIdAndRemove(req.params.id, function(err) {
 		if(err) {
 			res.redirect("/restaurants");
@@ -95,6 +91,30 @@ function isLoggedIn(req, res, next) {
 		return next();
 	}
 	res.redirect("/login");
+}
+
+function checkRestaurantOwnership(req, res, next) {
+	// Is user logged in?
+	if(req.isAuthenticated()) {
+		Restaurant.findById(req.params.id, function(err, foundRestaurant) {
+			if(err) {
+				res.redirect("back")
+			} else {
+				// Does user own the restaurant?
+				if(foundRestaurant.author.id.equals(req.user._id)) {
+					next();
+				} 
+				// Otherwise, redirect
+				else {
+					res.redirect("back");
+				}
+			}
+		});
+	} 
+	// If not, redirect	
+	else {
+		res.redirect("back");
+	}
 }
 
 module.exports = router;
