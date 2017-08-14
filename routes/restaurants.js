@@ -70,11 +70,11 @@ router.get("/:id/edit", middleware.checkRestaurantOwnership, function(req, res) 
 
 // UPDATE - Edit restaurant to database
 router.put("/:id", middleware.checkRestaurantOwnership, function(req, res) {
-	geocoder.geocode(req.body.location, function(err, data) {
+	geocoder.geocode(req.body.restaurant.location, function(err, data) {
 		var lat = data.results[0].geometry.location.lat;
 		var lng = data.results[0].geometry.location.lng;
 		var location = data.results[0].formatted_address;
-		var newData = {name: req.body.name, image: req.body.image, description: req.body.description, location: location, lat: lat, lng: lng};
+		var newData = {name: req.body.restaurant.name, image: req.body.restaurant.image, description: req.body.restaurant.description, location: req.body.restaurant.location, lat: lat, lng: lng};
 		// Find and update the correct restaurant
 		Restaurant.findByIdAndUpdate(req.params.id, {$set: newData}, function(err, updatedRestaurant) {
 			if(err) {

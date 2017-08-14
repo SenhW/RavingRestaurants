@@ -12,7 +12,7 @@ middlewareObj.checkRestaurantOwnership = function(req, res, next) {
 				res.redirect("back")
 			} else {
 				// Does user own the restaurant?
-				if(foundRestaurant.author.id.equals(req.user._id)) {
+				if(foundRestaurant.author.id.equals(req.user._id) || req.user.isAdmin) {
 					next();
 				} 
 				// Otherwise, redirect
@@ -39,7 +39,7 @@ middlewareObj.checkCommentOwnership = function(req, res, next) {
 				res.redirect("back")
 			} else {
 				// Does user own the comment?
-				if(foundComment.author.id.equals(req.user._id)) {
+				if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin) {
 					next();
 				} 
 				// Otherwise, redirect
