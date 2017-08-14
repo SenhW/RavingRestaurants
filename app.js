@@ -16,6 +16,9 @@ var commentRoutes    = require("./routes/comments"),
 	restaurantRoutes = require("./routes/restaurants"),
 	indexRoutes      = require("./routes/index")
 
+// Require config api key for Google Maps
+var config = require("./config");
+
 // CONFIGURATION
 mongoose.connect("mongodb://localhost/raving_restaurants");
 // Parses request bodies
@@ -45,6 +48,7 @@ app.use(function(req, res, next) {
 	res.locals.currentUser = req.user;
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
+	res.locals.google_api = config.google_api;
 	next();
 });
 

@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var Restaurant = require("../models/restaurant");
 var middleware = require("../middleware");
+var geocoder = require("geocoder");
 
 // INDEX - show all restaurants
 router.get("/", function(req, res) {
@@ -25,15 +26,20 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
 		id: req.user._id,
 		username: req.user.username
 	}
-	var newRestaurant = {name: name, image: image, description: desc, author: author}
-	// Create a new restaurant and save to database
-	Restaurant.create(newRestaurant, function(err, newlyCreated) {
-		if(err) {
-			console.log(err);
-		} else {
-			// Redirect back to restaurants page
-			res.redirect("/restaurants");
-		}
+	geocoder.geocode(req.body.location, function(err, data) {
+		var lat = data.results[0].geometry.location.lat;
+		var lng = data.results[0].geometry.location.lng;
+		var location = data.results[0].formatted_address;
+		var newRestaurant = {name: name, image: image, description: desc, author: author, location: location, lat: lat, lng: lng};
+		// Create a new restaurant and save to database
+		Restaurant.create(newRestaurant, function(err, newlyCreated) {
+			if(err) {
+				console.log(err);
+			} else {
+				// Redirect back to restaurants page
+				res.redirect("/restaurants");
+			}
+		});	
 	});
 });
 
@@ -64,14 +70,22 @@ router.get("/:id/edit", middleware.checkRestaurantOwnership, function(req, res) 
 
 // UPDATE - Edit restaurant to database
 router.put("/:id", middleware.checkRestaurantOwnership, function(req, res) {
-	// Find and update the correct restaurant
-	Restaurant.findByIdAndUpdate(req.params.id, req.body.restaurant, function(err, updatedRestaurant) {
-		if(err) {
-			res.redirect("/restaurants");
-		} else {
-			// Redirect to show page
-			res.redirect("/restaurants/" + req.params.id);
-		}
+	geocoder.geocode(req.body.location, function(err, data) {
+		var lat = data.results[0].geometry.location.lat;
+		var lng = data.results[0].geometry.location.lng;
+		var location = data.results[0].formatted_address;
+		var newData = {name: req.body.name, image: req.body.image, description: req.body.description, location: location, lat: lat, lng: lng};
+		// Find and update the correct restaurant
+		Restaurant.findByIdAndUpdate(req.params.id, {$set: newData}, function(err, updatedRestaurant) {
+			if(err) {
+				req.flash("error", err.message);
+				res.redirect("back");
+			} else {
+				req.flash("success", "Successfully Updated!");
+				// Redirect to show page
+				res.redirect("/restaurants/" + updatedRestaurant.id);
+			}
+		});
 	});
 });
 
