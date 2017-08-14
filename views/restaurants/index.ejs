@@ -1,33 +1,31 @@
 <% include ../partials/header %>
 
-<div class="container">
-	<header class="jumbotron">
-		<!-- Spacing around jumbotron when page is shrinked down -->
-		<div class="container">
-			<h1>Welcome to RavingRestaurants!</h1>
-			<p>View all the restaurants that people are raving for!</p>
-			<p>
-				<a class="btn btn-primary btn-lg" href="/restaurants/new">Add New Restaurant</a>
-			</p>
-		</div>
-	</header>
-
-	<!-- Adding style allows the grid to adapt to different image sizes -->
-	<div class="row text-center" style="display:flex; flex-wrap: wrap">
-		<% restaurants.forEach(function(restaurant) { %>
-			<div class="col-md-3 col-sm-6">
-				<div class="thumbnail">
-					<img src="<%= restaurant.image %>">
-					<div class="caption">
-						<h4><%= restaurant.name %></h4>
-					</div>
-					<p>
-						<a href="/restaurants/<%= restaurant._id %>" class="btn btn-primary">More Info</a>
-					</p>
-				</div>
-			</div>
-		<% }); %>
+<header class="jumbotron">
+	<!-- Spacing around jumbotron when page is shrinked down -->
+	<div class="container">
+		<h1>Welcome to RavingRestaurants!</h1>
+		<p>View all the restaurants that people are raving for!</p>
+		<p>
+			<a class="btn btn-primary btn-lg" href="/restaurants/new">Add New Restaurant</a>
+		</p>
 	</div>
+</header>
+
+<!-- Adding style allows the grid to adapt to different image sizes -->
+<div class="row text-center" style="display:flex; flex-wrap: wrap">
+	<% restaurants.forEach(function(restaurant) { %>
+		<div class="col-md-3 col-sm-6">
+			<div class="thumbnail">
+				<img src="<%= restaurant.image %>">
+				<div class="caption">
+					<h4><%= restaurant.name %></h4>
+				</div>
+				<p>
+					<a href="/restaurants/<%= restaurant._id %>" class="btn btn-primary">More Info</a>
+				</p>
+			</div>
+		</div>
+	<% }); %>
 </div>
 
 <% include ../partials/footer %>
