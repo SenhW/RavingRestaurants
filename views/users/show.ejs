@@ -1,0 +1,22 @@
+<% include ../partials/header %>
+
+<div class="row">
+	<div class="col-md-4">
+		<h1><%= user.firstName + " " + user.lastName %></h1>
+		<div class="thumbnail">
+			<img src="<%= user.avatar %>" alt="user profile image">
+			<div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+		</div>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus gravida mauris, vel hendrerit nibh placerat nec. Pellentesque pharetra rutrum semper. Aenean feugiat elementum purus, ac tincidunt tortor bibendum eget. Maecenas rutrum scelerisque lorem eget rhoncus. Etiam id arcu maximus mi euismod aliquet id non dui. Vivamus metus quam, imperdiet nec iaculis vitae, viverra non lacus. Pellentesque sit amet rhoncus augue. Mauris faucibus tincidunt lectus, eu blandit ex maximus eget. Praesent quis ornare sapien, sed cursus leo. Cras gravida, lacus vitae lacinia rutrum, mauris libero cursus erat, eu vestibulum erat urna vitae massa. Nunc ultrices tempus arcu, eu mollis nibh molestie vitae. Cras bibendum nunc non bibendum condimentum.
+	</div>
+	<div class="col-md-8">
+		<h3><%= user.username %>'s restaurants:</h3>
+		<ul>
+			<% restaurants.forEach(function(restaurant) { %>
+				<li><a href="/restaurants/<%= restaurant.id %>"><%= restaurant.name %></a></li>
+			<% }) %>
+		</ul>
+	</div>
+</div>
+
+<% include ../partials/footer %>

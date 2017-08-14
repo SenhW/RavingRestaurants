@@ -17,7 +17,7 @@
 				<h4><a><%= restaurant.name %></a></h4>
 				<p><%= restaurant.description %></p>
 				<p>
-					<em>Submitted By <%= restaurant.author.username %>, <%= moment(restaurant.createdAt).fromNow() %></em>
+					<em>Submitted By <a href="/users/<%= restaurant.author.id %>"><%= restaurant.author.username %></a>, <%= moment(restaurant.createdAt).fromNow() %></em>
 				</p>
 				<% if(currentUser && restaurant.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
 					<a class="btn btn-xs btn-warning" href="/restaurants/<%= restaurant._id %>/edit">Edit</a>

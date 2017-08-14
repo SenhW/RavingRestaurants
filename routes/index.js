@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
+var Restaurant = require("../models/restaurant");
 
 // Root route
 router.get("/", function(req, res) {
@@ -56,6 +57,23 @@ router.get("/logout", function(req, res) {
 	req.logout();
 	req.flash("success", "Logged you out!");
 	res.redirect("/restaurants");
+});
+
+// USER PROFILE
+router.get("/users/:id", function(req, res) {
+	User.findById(req.params.id, function(err, foundUser) {
+		if(err) {
+			req.flash("error", "Something went wrong");
+			res.redirect("/restaurants");
+		}
+		Restaurant.find().where('author.id').equals(foundUser._id).exec(function(err, restaurants) {
+			if(err) {
+				req.flash("error", "Something went wrong");
+				res.redirect("/restaurants");
+			}
+			res.render("users/show", {user: foundUser, restaurants: restaurants});
+		});
+	});
 });
 
 module.exports = router;
