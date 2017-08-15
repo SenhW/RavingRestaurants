@@ -20,7 +20,8 @@ var commentRoutes    = require("./routes/comments"),
 var config = require("./config");
 
 // CONFIGURATION
-mongoose.connect("mongodb://localhost/raving_restaurants");
+// mongoose.connect("mongodb://localhost/raving_restaurants");
+mongoose.connect("mongodb://" + config.mlab_username + ":" + config.mlab_password + "@ds155631.mlab.com:55631/raving_restaurants");
 // Parses request bodies
 app.use(bodyParser.urlencoded({extended: true}));
 // Allows pages to render without having to specify ejs extension
