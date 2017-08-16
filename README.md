@@ -1,6 +1,6 @@
 # RavingRestaurants
 
-An application that allows restaurant enthusiasts to post and comment on their favorite restaurants and see what others have to say.
+A web application that allows restaurant enthusiasts to post and comment on their favorite restaurants and see what others have to say.
 
 Link to hosted website: https://immense-anchorage-91158.herokuapp.com/
 
